@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Space Login</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #0a0a1a;
+            overflow: hidden;
+        }
+
+        /* Space background with stars */
+        .space {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: var(--opacity); transform: scale(1); }
+        }
+
+        /* Nebula effect */
+        .nebula {
+            position: fixed;
+            width: 200vw;
+            height: 200vh;
+            background: radial-gradient(circle at 30% 50%, 
+                rgba(138, 43, 226, 0.15) 0%, 
+                rgba(0, 0, 139, 0) 50%),
+                radial-gradient(circle at 70% 30%, 
+                rgba(0, 191, 255, 0.15) 0%, 
+                rgba(0, 0, 139, 0) 50%);
+            filter: blur(60px);
+            z-index: -1;
+            animation: nebulaFloat 40s infinite alternate ease-in-out;
+        }
+
+        @keyframes nebulaFloat {
+            0% { transform: translate(-10%, -10%); }
+            100% { transform: translate(10%, 10%); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            width: 900px;
+            height: 550px;
+            background: rgba(10, 10, 30, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Form styling */
+        .form-container {
+            width: 50%;
+            height: 100%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        .login-form {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .signup-form {
+            position: absolute;
+            right: 0;
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .container.active .login-form {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .container.active .signup-form {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #8a2be2;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: #aaa;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:valid + label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            background: #0a0a1a;
+            padding: 0 5px;
+            color: #8a2be2;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #8a2be2, #00bfff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+        }
+
+        .toggle-form a {
+            color: #8a2be2;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-form a:hover {
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+        }
+
+        /* Decorative elements */
+        .glow-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: #8a2be2;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 200px;
+            height: 200px;
+            background: #00bfff;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 2s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 0.3; }
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(15px);
+            opacity: 0.7;
+            animation: floatOrb 15s infinite linear;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.7; }
+            100% { transform: translate(100px, -100px) scale(1.2); opacity: 0; }
+        }
+
+        /* Toggle panel */
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            right: 0;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 191, 255, 0.2));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            transition: all 1s ease-in-out;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .container.active .toggle-panel {
+            right: 50%;
+        }
+
+        .toggle-panel h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .toggle-panel p {
+            color: #ddd;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .toggle-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Digital grid overlay */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(10, 10, 30, 0.7) 0 0 / 20px 20px),
+                linear-gradient(90deg, rgba(10, 10, 30, 0.7) 0 0 / 20px 20px),
+                linear-gradient(rgba(138, 43, 226, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(138, 43, 226, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 950px) {
+            .container {
+                width: 90%;
+                height: auto;
+                flex-direction: column;
+            }
+
+            .form-container, .toggle-panel {
+                width: 100%;
+                padding: 40px;
+            }
+
+            .toggle-panel {
+                position: relative;
+                right: auto;
+                padding: 40px;
+            }
+
+            .container.active .toggle-panel {
+                right: auto;
+            }
+
+            .login-form, .signup-form {
+                transform: none;
+                opacity: 1;
+                position: relative;
+            }
+
+            .container.active .login-form {
+                display: none;
+            }
+
+            .container:not(.active) .signup-form {
+                display: none;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .form-container, .toggle-panel {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Space background with stars -->
+    <div class="space" id="space"></div>
+    
+    <!-- Nebula effect -->
+    <div class="nebula"></div>
+    
+    <!-- Main container -->
+    <div class="container" id="container">
+        <!-- Grid overlay -->
+        <div class="grid-overlay"></div>
+        
+        <!-- Glow circles -->
+        <div class="glow-circle circle-1"></div>
+        <div class="glow-circle circle-2"></div>
+        
+        <!-- Login Form -->
+        <div class="form-container login-form">
+            <form id="loginForm">
+                <h1>WELCOME BACK</h1>
+                
+                <div class="input-group">
+                    <input type="text" id="loginEmail" required>
+                    <label for="loginEmail">Email</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="loginPassword" required>
+                    <label for="loginPassword">Password</label>
+                </div>
+                
+                <button type="submit" class="btn">LOGIN</button>
+                
+                <div class="toggle-form">
+                    <p>Don't have an account? <a id="showSignup">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Signup Form -->
+        <div class="form-container signup-form">
+            <form id="signupForm">
+                <h1>CREATE ACCOUNT</h1>
+                
+                <div class="input-group">
+                    <input type="text" id="signupName" required>
+                    <label for="signupName">Username</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="email" id="signupEmail" required>
+                    <label for="signupEmail">Email</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="signupPassword" required>
+                    <label for="signupPassword">Password</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="signupConfirm" required>
+                    <label for="signupConfirm">Confirm Password</label>
+                </div>
+                
+                <button type="submit" class="btn">SIGN UP</button>
+                
+                <div class="toggle-form">
+                    <p>Already have an account? <a id="showLogin">Login</a></p>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Toggle Panel -->
+        <div class="toggle-panel">
+            <h1>HELLO, FRIEND!</h1>
+            <p>Enter your personal details and start your journey with us</p>
+            <button class="toggle-btn" id="showSignupPanel">SIGN UP</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('container');
+            const showSignup = document.getElementById('showSignup');
+            const showLogin = document.getElementById('showLogin');
+            const showSignupPanel = document.getElementById('showSignupPanel');
+            
+            // Toggle between login and signup forms
+            showSignup.addEventListener('click', () => {
+                container.classList.add('active');
+            });
+            
+            showLogin.addEventListener('click', () => {
+                container.classList.remove('active');
+            });
+            
+            showSignupPanel.addEventListener('click', () => {
+                container.classList.add('active');
+            });
+            
+            // Create stars for space background
+            const createStars = () => {
+                const space = document.getElementById('space');
+                const starCount = 150;
+                
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    
+                    // Random properties for each star
+                    const size = Math.random() * 3;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const opacity = Math.random() * 0.8 + 0.2;
+                    const duration = Math.random() * 5 + 3;
+                    const delay = Math.random() * 5;
+                    
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.left = `${posX}%`;
+                    star.style.top = `${posY}%`;
+                    star.style.setProperty('--opacity', opacity);
+                    star.style.setProperty('--duration', `${duration}s`);
+                    star.style.animationDelay = `${delay}s`;
+                    
+                    space.appendChild(star);
+                }
+            };
+            
+            // Create floating orbs
+            const createOrbs = () => {
+                const container = document.querySelector('.container');
+                const orbCount = 5;
+                
+                for (let i = 0; i < orbCount; i++) {
+                    const orb = document.createElement('div');
+                    orb.classList.add('orb');
+                    
+                    // Random properties for each orb
+                    const size = Math.random() * 100 + 50;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const color = i % 2 === 0 ? 'rgba(138, 43, 226, 0.7)' : 'rgba(0, 191, 255, 0.7)';
+                    const duration = Math.random() * 10 + 10;
+                    const delay = Math.random() * 5;
+                    
+                    orb.style.width = `${size}px`;
+                    orb.style.height = `${size}px`;
+                    orb.style.left = `${posX}%`;
+                    orb.style.top = `${posY}%`;
+                    orb.style.background = color;
+                    orb.style.animationDuration = `${duration}s`;
+                    orb.style.animationDelay = `${delay}s`;
+                    
+                    container.appendChild(orb);
+                }
+            };
+            
+            // Form submission handlers
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add your login logic here
+                alert('Login functionality would go here');
+            });
+            
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add your signup logic here
+                alert('Signup functionality would go here');
+            });
+            
+            // Initialize effects
+            createStars();
+            createOrbs();
+        });
+    </script>
+</body>
+</html>

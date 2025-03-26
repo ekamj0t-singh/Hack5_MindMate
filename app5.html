@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindfulMe - Mental Health Support</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="static/css/app.css">
+</head>
+<body>
+  <!-- Onboarding Screen -->
+  <section id="onboarding-screen" class="screen active">
+    <div class="onboarding-container">
+      <div class="logo-container">
+        <h1>MindfulMe</h1>
+        <p class="tagline">Your personal mental wellness companion</p>
+      </div>
+      <div class="welcome-message">
+        <h2>Welcome to a space of healing and growth</h2>
+        <p>MindfulMe provides personalized support for your mental wellbeing journey through mood tracking, resources, and community support.</p>
+      </div>
+      <div class="onboarding-animation">
+        <div class="animation-circle"></div>
+      </div>
+      <div class="auth-buttons">
+        <button id="signup-btn" class="primary-btn">Sign Up</button>
+        <button id="login-btn" class="secondary-btn">Log In</button>
+      </div>
+      <p class="skip-text" id="skip-onboarding">Skip for now</p>
+    </div>
+  </section>
+
+  <!-- Home Screen (Dashboard) -->
+  <section id="home-screen" class="screen">
+    <header class="app-header">
+      <h1>MindfulMe</h1>
+      <div class="profile-icon" id="open-profile">
+        <div class="avatar">U</div>
+      </div>
+    </header>
+    <div class="dashboard-container">
+      <div class="welcome-user">
+        <h2 id="greeting">Good Morning!</h2>
+        <p>How are you feeling today?</p>
+      </div>
+      <div class="mood-selector">
+        <div class="mood-option" data-mood="happy">
+          <div class="mood-emoji">😊</div>
+          <span>Happy</span>
+        </div>
+        <div class="mood-option" data-mood="calm">
+          <div class="mood-emoji">😌</div>
+          <span>Calm</span>
+        </div>
+        <div class="mood-option" data-mood="sad">
+          <div class="mood-emoji">😔</div>
+          <span>Sad</span>
+        </div>
+        <div class="mood-option" data-mood="anxious">
+          <div class="mood-emoji">😰</div>
+          <span>Anxious</span>
+        </div>
+        <div class="mood-option" data-mood="energetic">
+          <div class="mood-emoji">⚡</div>
+          <span>Energetic</span>
+        </div>
+      </div>
+      
+      <div class="daily-quote" id="daily-quote">
+        <p class="quote-text">"Your daily quote will appear here."</p>
+        <p class="quote-author">— Author</p>
+      </div>
+      
+      <div id="symptom-info-container" style="display: none;">
+        <!-- Symptom info will be populated by JavaScript -->
+      </div>
+      
+      <!-- Mood-Based Recommendations Section -->
+      <div class="mood-recommendations-section">
+        <h3><span id="mood-emoji-display">😊</span> Recommended for your <span id="current-mood">happy</span> mood</h3>
+        
+        <!-- Top Recommendations -->
+        <div class="scroll-container" id="top-recommendations">
+          <!-- Top recommendations will be populated by JavaScript -->
+        </div>
+        
+        <div class="category-title">
+          <h4>View more in Resource Hub</h4>
+          <a href="#" class="explore-more" id="view-all-resources">Explore All →</a>
+        </div>
+      </div>
+      
+      <div class="dashboard-features">
+        <div class="feature-card" id="open-chatbot">
+          <div class="feature-icon">💬</div>
+          <h3>Talk to AI Companion</h3>
+          <p>Share your thoughts and receive support</p>
+        </div>
+        <div class="feature-card" id="open-mood-tracker">
+          <div class="feature-icon">📊</div>
+          <h3>Mood Tracker</h3>
+          <p>Monitor your emotional wellbeing</p>
+        </div>
+        <div class="feature-card" id="open-journal">
+          <div class="feature-icon">📓</div>
+          <h3>Journal</h3>
+          <p>Express your thoughts and feelings</p>
+        </div>
+        <div class="feature-card" id="open-resources">
+          <div class="feature-icon">📚</div>
+          <h3>Resource Hub</h3>
+          <p>Discover helpful articles and exercises</p>
+        </div>
+        <div class="feature-card" id="open-community">
+          <div class="feature-icon">👥</div>
+            <h3>Chat-Room</h3>
+          <p>Connect with others anonymously</p>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item active" data-screen="home-screen">
+        <div class="nav-icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-item" data-screen="chatbot-screen">
+        <div class="nav-icon">💬</div>
+        <span>Chat</span>
+      </div>
+      <div class="nav-item active" data-screen="mood-tracker-screen">
+        <div class="nav-icon">📊</div>
+        <span>Mood</span>
+      </div>
+      <div class="nav-item" data-screen="journal-screen">
+        <div class="nav-icon">📓</div>
+        <span>Journal</span>
+      </div>
+      <div class="nav-item" data-screen="resources-screen">
+        <div class="nav-icon">📚</div>
+        <span>Resources</span>
+      </div>
+      <div class="nav-item" data-screen="community-screen">
+        <div class="nav-icon">👥</div>
+        <span>Chat Room</span>
+      </div>
+    </nav>
+  </section>
+
+  <!-- Chat Room Screen -->
+  <section id="community-screen" class="screen">
+    <header class="screen-header">
+      <button class="back-btn" data-target="home-screen">←</button>
+      <h2>Community Support</h2>
+      <div class="header-icon">👥</div>
+    </header>
+    <div class="community-container">
+      <div class="community-topics">
+        <div class="topic-item active">
+          <h3>General Support</h3>
+          <p>24 people active</p>
+        </div>
+        <div class="topic-item">
+          <h3>Anxiety</h3>
+          <p>12 people active</p>
+        </div>
+        <div class="topic-item">
+          <h3>Student Stress</h3>
+          <p>8 people active</p>
+        </div>
+        <div class="topic-item">
+          <h3>Work-Life Balance</h3>
+          <p>15 people active</p>
+        </div>
+        <div class="topic-item">
+          <h3>Mindfulness Practice</h3>
+          <p>10 people active</p>
+        </div>
+      </div>
+      <div class="community-chat">
+        <div class="chat-messages" id="community-messages">
+          <div class="message other">
+            <div class="message-user">User4872</div>
+            <div class="message-bubble">
+              Has anyone tried meditation for anxiety? I'm looking for recommendations.
+            </div>
+            <div class="message-time">5 min ago</div>
+          </div>
+          <div class="message other">
+            <div class="message-user">User2391</div>
+            <div class="message-bubble">
+              I've been using the Calm app for a few weeks and it's helped me a lot!
+            </div>
+            <div class="message-time">3 min ago</div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="community-message" placeholder="Type your message...">
+          <button id="send-community-message">Send</button>
+        </div>
+      </div>
+    </div>
+    <div class="community-guidelines">
+      <p>Remember: Be kind, respectful, and supportive. This is a safe space for everyone.</p>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" data-screen="home-screen">
+        <div class="nav-icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-item" data-screen="chatbot-screen">
+        <div class="nav-icon">💬</div>
+        <span>Chat</span>
+      </div>
+      <div class="nav-item active" data-screen="mood-tracker-screen">
+        <div class="nav-icon">📊</div>
+        <span>Mood</span>
+      </div>
+      
+      <div class="nav-item" data-screen="journal-screen">
+        <div class="nav-icon">📓</div>
+        <span>Journal</span>
+      </div>
+      <div class="nav-item" data-screen="resources-screen">
+        <div class="nav-icon">📚</div>
+        <span>Resources</span>
+      </div>
+      <div class="nav-item active" data-screen="community-screen">
+        <div class="nav-icon">👥</div>
+        <span>Chat Room</span>
+      </div>
+    </nav>
+  </section>
+
+  <!-- AI Chatbot Screen -->
+  <section id="chatbot-screen" class="screen">
+    <header class="screen-header">
+      <button class="back-btn" data-target="home-screen">←</button>
+      <h2>AI Companion</h2>
+      <div class="header-icon">ℹ️</div>
+    </header>
+    <div class="chat-container">
+      <div class="chat-messages" id="chat-messages">
+        <div class="message bot">
+          <div class="message-bubble">
+            Hello! I'm your AI companion. How are you feeling today?
+          </div>
+          <div class="message-time">Just now</div>
+        </div>
+      </div>
+      <div class="quick-responses">
+        <button class="quick-response-btn" data-response="I'm feeling anxious today">I'm feeling anxious</button>
+        <button class="quick-response-btn" data-response="I need some motivation">I need motivation</button>
+        <button class="quick-response-btn" data-response="I'm feeling down">I'm feeling down</button>
+        <button class="quick-response-btn" data-response="I'm having trouble sleeping">Sleep issues</button>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="user-message" placeholder="Type your message...">
+        <button id="send-message">Send</button>
+      </div>
+      <div class="crisis-help">
+        <button id="crisis-btn">Need immediate help?</button>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" data-screen="home-screen">
+        <div class="nav-icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-item active" data-screen="chatbot-screen">
+        <div class="nav-icon">💬</div>
+        <span>Chat</span>
+      </div>
+      <div class="nav-item active" data-screen="mood-tracker-screen">
+        <div class="nav-icon">📊</div>
+        <span>Mood</span>
+      </div>
+      <div class="nav-item" data-screen="journal-screen">
+        <div class="nav-icon">📓</div>
+        <span>Journal</span>
+      </div>
+      <div class="nav-item" data-screen="resources-screen">
+        <div class="nav-icon">📚</div>
+        <span>Resources</span>
+      </div>
+      <div class="nav-item active" data-screen="community-screen">
+        <div class="nav-icon">👥</div>
+        <span>Chat Room</span>
+      </div>
+    </nav>
+  </section>
+
+  <!-- Journal Screen -->
+  <section id="journal-screen" class="screen">
+    <header class="screen-header">
+      <button class="back-btn" data-target="home-screen">←</button>
+      <h2>Journal</h2>
+      <div class="header-icon">📓</div>
+    </header>
+    <div class="journal-container">
+      <div class="journal-header">
+        <h3>Express Yourself</h3>
+        <p>Write freely about your thoughts, feelings, and experiences.</p>
+      </div>
+      
+      <div class="journal-types">
+        <div class="journal-type active" data-type="free">
+          <div class="journal-type-icon">✏️</div>
+          <div>Free Writing</div>
+        </div>
+        <div class="journal-type" data-type="gratitude">
+          <div class="journal-type-icon">🙏</div>
+          <div>Gratitude</div>
+        </div>
+        <div class="journal-type" data-type="vent">
+          <div class="journal-type-icon">💨</div>
+          <div>Vent</div>
+        </div>
+        <div class="journal-type" data-type="reflection">
+          <div class="journal-type-icon">🔍</div>
+          <div>Reflection</div>
+        </div>
+      </div>
+      
+      <div class="journal-editor">
+        <div class="journal-date">
+          <span id="journal-current-date">Monday, June 10, 2023</span>
+          <span id="journal-type-display">Free Writing</span>
+        </div>
+        <input type="text" class="journal-title" id="journal-title" placeholder="Title your entry...">
+        <textarea class="journal-content" id="journal-content" placeholder="Start writing here... What's on your mind today?"></textarea>
+        <div class="journal-toolbar">
+          <div class="journal-mood">
+            <span class="journal-mood-label">Mood:</span>
+            <select id="journal-mood-select">
+              <option value="happy">😊 Happy</option>
+              <option value="calm">😌 Calm</option>
+              <option value="sad">😔 Sad</option>
+              <option value="anxious">😰 Anxious</option>
+              <option value="energetic">⚡ Energetic</option>
+            </select>
+          </div>
+          <div class="journal-actions">
+            <button class="secondary-btn" id="journal-clear">Clear</button>
+            <button class="primary-btn" id="journal-save">Save</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="journal-entries">
+        <h3>Previous Entries</h3>
+        <div id="journal-entries-list">
+          <!-- Journal entries will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" data-screen="home-screen">
+        <div class="nav-icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-item" data-screen="chatbot-screen">
+        <div class="nav-icon">💬</div>
+        <span>Chat</span>
+      </div>
+      <div class="nav-item active" data-screen="mood-tracker-screen">
+        <div class="nav-icon">📊</div>
+        <span>Mood</span>
+      </div>
+      <div class="nav-item active" data-screen="journal-screen">
+        <div class="nav-icon">📓</div>
+        <span>Journal</span>
+      </div>
+      <div class="nav-item" data-screen="resources-screen">
+        <div class="nav-icon">📚</div>
+        <span>Resources</span>
+        
+      </div>
+      <div class="nav-item active" data-screen="community-screen">
+        <div class="nav-icon">👥</div>
+        <span>Chat Room</span>
+      </div>
+    </nav>
+  </section>
+
+  <!-- Mood Tracker Screen -->
+  <section id="mood-tracker-screen" class="screen">
+    <header class="screen-header">
+      <button class="back-btn" data-target="home-screen">←</button>
+      <h2>Mood Tracker</h2>
+      <div class="header-icon">📅</div>
+    </header>
+    <div class="mood-tracker-container">
+      <div class="mood-history">
+        <h3>Your Mood History</h3>
+        <div class="mood-chart-container">
+          <canvas id="mood-chart"></canvas>
+        </div>
+      </div>
+      <div class="mood-log">
+        <h3>Log Your Mood</h3>
+        <div class="mood-selector large">
+          <div class="mood-option" data-mood="happy">
+            <div class="mood-emoji">😊</div>
+            <span>Happy</span>
+          </div>
+          <div class="mood-option" data-mood="calm">
+            <div class="mood-emoji">😌</div>
+            <span>Calm</span>
+          </div>
+          <div class="mood-option" data-mood="sad">
+            <div class="mood-emoji">😔</div>
+            <span>Sad</span>
+          </div>
+          <div class="mood-option" data-mood="anxious">
+            <div class="mood-emoji">😰</div>
+            <span>Anxious</span>
+          </div>
+          <div class="mood-option" data-mood="energetic">
+            <div class="mood-emoji">⚡</div>
+            <span>Energetic</span>
+          </div>
+        </div>
+        <div class="mood-notes">
+          <textarea id="mood-notes" placeholder="Add notes about how you're feeling (optional)"></textarea>
+          <button id="save-mood" class="primary-btn">Save</button>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" data-screen="home-screen">
+        <div class="nav-icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-item" data-screen="chatbot-screen">
+        <div class="nav-icon">💬</div>
+        <span>Chat</span>
+      </div>
+      <div class="nav-item active" data-screen="mood-tracker-screen">
+        <div class="nav-icon">📊</div>
+        <span>Mood</span>
+      </div>
+      <div class="nav-item" data-screen="journal-screen">
+        <div class="nav-icon">📓</div>
+        <span>Journal</span>
+      </div>
+      <div class="nav-item" data-screen="resources-screen">
+        <div class="nav-icon">📚</div>
+        <span>Resources</span>
+      </div>
+      
+      <div class="nav-item active" data-screen="community-screen">
+        <div class="nav-icon">👥</div>
+        <span>Chat Room</span>
+      </div>
+    </nav>
+  </section>
+
+  <!-- Resource Hub Screen -->
+  <section id="resources-screen" class="screen">
+    <header class="screen-header">
+      <button class="back-btn" data-target="home-screen">←</button>
+      <h2>Resource Hub</h2>
+      <div class="header-icon">🔍</div>
+    </header>
+    <div class="search-container">
+      <input type="text" id="resource-search" placeholder="Search resources...">
+    </div>
+    <div class="resource-categories">
+      <div class="category-tab active" data-category="all">All</div>
+      <div class="category-tab" data-category="exercises">Exercises</div>
+      <div class="category-tab" data-category="books">Books</div>
+      <div class="category-tab" data-category="music">Music</div>
+      <div class="category-tab" data-category="movies">Movies</div>
+      <div class="category-tab" data-category="games">Activities/Games</div>
+    </div>
+    
+    <div class="resources-grid" id="resources-grid">
+      <!-- Resources will be populated by JavaScript -->
+    </div>
+    
+    <nav class="bottom-nav">
+      <div class="nav-item" data-screen="home-screen">
+        <div class="nav-icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-item" data-screen="chatbot-screen">
+        <div class="nav-icon">💬</div>
+        <span>Chat</span>
+      </div>
+      <div class="nav-item active" data-screen="mood-tracker-screen">
+        <div class="nav-icon">📊</div>
+        <span>Mood</span>
+      </div>
+      <div class="nav-item" data-screen="journal-screen">
+        <div class="nav-icon">📓</div>
+        <span>Journal</span>
+      </div>
+      <div class="nav-item active" data-screen="resources-screen">
+        <div class="nav-icon">📚</div>
+        <span>Resources</span>
+      </div>
+      <div class="nav-item active" data-screen="community-screen">
+        <div class="nav-icon">👥</div>
+        <span>Chat Room</span>
+      </div>
+    </nav>
+  </section>
+
+  <!-- User Profile Screen -->
+  <section id="profile-screen" class="screen">
+    <header class="screen-header">
+      <button class="back-btn" data-target="home-screen">←</button>
+      <h2>Profile & Settings</h2>
+      <div class="header-icon">⚙️</div>
+    </header>
+    <div class="profile-container">
+      <div class="profile-header">
+        <div class="profile-avatar">U</div>
+        <h2 class="profile-name">User</h2>
+        <p class="profile-email">user@example.com</p>
+      </div>
+      
+      <div class="profile-section">
+        <h3><span>⚙️</span> App Settings</h3>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>🌙</span>
+            <p>Dark Mode</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="dark-mode-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>🔔</span>
+            <p>Notifications</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>🔒</span>
+            <p>Privacy</p>
+          </div>
+          <span>→</span>
+        </div>
+      </div>
+      
+      <div class="profile-section">
+        <h3><span>👤</span> Account</h3>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>✏️</span>
+            <p>Edit Profile</p>
+          </div>
+          <span>→</span>
+        </div>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>🔑</span>
+            <p>Change Password</p>
+          </div>
+          <span>→</span>
+        </div>
+        <button class="logout-btn">Log Out</button>
+      </div>
+      
+      <div class="profile-section">
+        <h3><span>ℹ️</span> About</h3>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>📄</span>
+            <p>Terms of Service</p>
+          </div>
+          <span>→</span>
+        </div>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>🔏</span>
+            <p>Privacy Policy</p>
+          </div>
+          <span>→</span>
+        </div>
+        <div class="settings-item">
+          <div class="settings-label">
+            <span>❓</span>
+            <p>Help & Support</p>
+          </div>
+          <span>→</span>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" data-screen="home-screen">
+        <div class="nav-icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="nav-item" data-screen="chatbot-screen">
+        <div class="nav-icon">💬</div>
+        <span>Chat</span>
+      </div>
+      <div class="nav-item active" data-screen="mood-tracker-screen">
+        <div class="nav-icon">📊</div>
+        <span>Mood</span>
+      </div>
+      <div class="nav-item" data-screen="journal-screen">
+        <div class="nav-icon">📓</div>
+        <span>Journal</span>
+      </div>
+      <div class="nav-item" data-screen="resources-screen">
+        <div class="nav-icon">📚</div>
+        <span>Resources</span>
+      </div>
+      <div class="nav-item active" data-screen="community-screen">
+        <div class="nav-icon">👥</div>
+        <span>Chat Room</span>
+      </div>
+
+    </nav>
+  </section>
+
+  <!-- Crisis Help Modal -->
+  <div id="crisis-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Need immediate support?</h2>
+      <p>If you're in crisis or need immediate support, please reach out to one of these resources:</p>
+      <div class="crisis-resources">
+        <div class="crisis-resource">
+          <h3>Crisis Text Line</h3>
+          <p>Text HOME to 741741</p>
+        </div>
+        <div class="crisis-resource">
+          <h3>National Suicide Prevention Lifeline</h3>
+          <p>1-800-273-8255</p>
+        </div>
+        <div class="crisis-resource">
+          <h3>Emergency Services</h3>
+          <p>Call 911 or go to your nearest emergency room</p>
+        </div>
+      </div>
+      <button class="primary-btn close-modal-btn">I understand</button>
+    </div>
+  </div>
+
+  <!-- Symptom Assessment Modal -->
+  <div id="symptom-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2 id="symptom-modal-title">Tell us more about how you're feeling</h2>
+      <p id="symptom-modal-description">This will help us provide more personalized support for you.</p>
+      
+      <div class="symptom-assessment">
+        <div class="symptom-question">
+          <p>Which of these symptoms are you experiencing? (Select all that apply)</p>
+        </div>
+        <div class="symptom-options" id="symptom-options">
+          <!-- Options will be populated by JavaScript based on mood -->
+        </div>
+      </div>
+      
+      <button class="primary-btn" id="symptom-submit">Submit</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/app.js"></script>
+</body>
+</html>
